@@ -1,11 +1,10 @@
-# main.py
-def greet(name):
-    print(f"Hello, {name}!")
+apple = 1
+banana = 2
+cherry = 3
 
-def calculate_sum(a, b):
-    return a + b
-
-name = "World"
-greet(name)
-result = calculate_sum(5, 10)
-print(f"The sum is: {result}")
+for i in range(0, 10):
+    print(i)
+    print(apple)
+    print(banana)
+    print(cherry)
+    print('we love fruit')
