@@ -9,11 +9,18 @@ Pyfuscator is an advanced Python code obfuscation tool, meticulously designed to
 - **Intricate Control Flow Obfuscation**: Pyfuscator intricately wraps `If` and `For` statements in additional control flow structures, further obfuscating the code logic.
 - **Strategic Dead Code Injection**: Pyfuscator strategically injects dead code into function definitions, creating diversions for anyone attempting to decipher the code.
 
+## Installation
+
+1. Clone the Pyfuscator repository to your local machine using `git clone https://github.com/user319183/pyfuscator.git`.
+2. Navigate to the cloned repository using `cd pyfuscator`.
+3. If necessary, set up your environment. For example, you might use a virtual environment: `python3 -m venv env` and activate it with `source env/bin/activate`.
+
 ## Usage Guidelines
 
-1. Clone the Pyfuscator repository to your local machine.
-2. Execute the `obfuscator.py` script, providing the Python code file you wish to obfuscate as the input.
-3. The obfuscated code will be generated and saved to `obfuscated_main.py`.
+1. Execute the `obfuscator.py` script, providing the Python code file you wish to obfuscate as the input: `python obfuscator.py yourfile.py`.
+2. The obfuscated code will be generated and saved to `obfuscated_main.py`.
+
+**Disclaimer**: Pyfuscator is designed for use with Python 3.6 and later versions. It is currently in a development phase and may contain certain limitations in the obfuscation process. We are actively working on addressing these issues. Additionally, there are known issues with unit tests failing. We recommend using Pyfuscator in a testing environment until these issues are resolved. Your patience and understanding are appreciated.
 
 ## Dependencies
 
@@ -27,6 +34,17 @@ Pyfuscator is built upon the following Python libraries:
 - `Crypto.Cipher`
 - `Crypto.Random`
 - `base64`
+
+## Contributing
+
+We welcome contributions from the community. If you wish to contribute, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch for your changes.
+3. Make your changes in your branch.
+4. Submit a pull request with your changes.
+
+Please ensure your code adheres to our coding standards and that the unit tests still pass before submitting your pull request.
 
 ## Future Roadmap
 
