@@ -17,7 +17,7 @@ Pyfuscator is an advanced Python code obfuscation tool, meticulously designed to
 
 ## Usage Guidelines
 
-1. Execute the `obfuscator.py` script, providing the Python code file you wish to obfuscate as the input: `python obfuscator.py yourfile.py`.
+1. Execute the `obfuscator.py` script, providing the Python code you wish to obfuscate in `main.py`: `python obfuscator.py`.
 2. The obfuscated code will be generated and saved to `obfuscated_main.py`.
 
 **Disclaimer**: Pyfuscator is designed for use with Python 3.6 and later versions. It is currently in a development phase and may contain certain limitations in the obfuscation process. We are actively working on addressing these issues. Additionally, there are known issues with unit tests failing. We recommend using Pyfuscator in a testing environment until these issues are resolved. Your patience and understanding are appreciated.
