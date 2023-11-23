@@ -9,26 +9,55 @@ import string
 import json
 import ast
 import astunparse
+import base64
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 from base64 import b64encode, b64decode
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP
+import multiprocessing
 
-KEY = get_random_bytes(32)  # 32 bytes key for AES-256.
-RSA_KEY = RSA.generate(2048)  # 2048-bit RSA key
+KEY = get_random_bytes(32)
+RSA_KEY = RSA.generate(2048)
 RSA_CIPHER = PKCS1_OAEP.new(RSA_KEY)
 
-def random_string(length=100):
-    letters = string.ascii_lowercase + string.ascii_uppercase + string.digits
+funny_messages = [
+    "User319183 was here!",
+    "This code was obfuscated by User319183's Python Obfuscator",
+    "This code was obfuscated by User319183's Python Obfuscator. Join the Discord if your a kool kid: https://discord.gg/KHJjX3y2B4",
+    "https://e-z.bio/hot",
+    "Void Gen on top??!!?!?!?!?!?",
+    "Another day, another victory for the OGs",
+    "sacrifice loves skidding",
+]
+
+random_variables = [
+    "we_suck_poo",
+    "eat_it_pls",
+    "OH_YES_DADDY",
+    "void_gen_do_be_super_smexy",
+    "i_love_the_person_reading_this",
+    "edit_kinda_stinks",
+    "poopiesucker3145",
+    "king_jun_umu",
+    "if_you_put_a_buck_in_my_cup_i_will_suck_you_off",
+    "pooron",
+    "school_is_for_losers",
+]
+
+
+def random_string(length=500):
+    letters = string.ascii_lowercase + string.ascii_uppercase + string.ascii_letters
     return ''.join(random.choice(letters) for _ in range(length))
 
 def encrypt_with_aes_and_rsa(plain_text):
-    IV = get_random_bytes(16)  # 16 bytes initialization vector
-    cipher_aes = AES.new(KEY, AES.MODE_CFB, IV)  # AES cipher
-    cipher_text_aes = cipher_aes.encrypt(plain_text)
+    IV = get_random_bytes(16)
+    cipher_aes = AES.new(KEY, AES.MODE_CFB, IV)
+    # Convert the string to bytes before encryption
+    cipher_text_aes = cipher_aes.encrypt(plain_text.encode())
     cipher_text_rsa = RSA_CIPHER.encrypt(cipher_text_aes)  # RSA cipher
-    return cipher_text_rsa
+
+    return base64.b64encode(cipher_text_rsa).decode()
 
 cipher = AES.new(KEY, AES.MODE_CFB, get_random_bytes(16))
 
@@ -41,14 +70,13 @@ def decrypt_string(s):
     return decrypted.decode()
 
 class Obfuscator(ast.NodeTransformer):
-    """
-    The base class for the obfuscator. This class contains the basic obfuscation techniques.
-    """
-    def __init__(self):
+    def __init__(self, key=None):
         self.names_map = {}
         self.strings_table = []
         self.char_map = {char: i for i, char in enumerate(string.printable)}
         self.parent = None
+        self.key = key if key else get_random_bytes(32)
+        self.used_names = set() # Used to prevent name collisions
 
     def visit(self, node):
         old_parent = self.parent
@@ -58,12 +86,16 @@ class Obfuscator(ast.NodeTransformer):
         return result
 
     def obfuscate(self, code):
-        tree = ast.parse(code)
+        try:
+            tree = ast.parse(code)
+        except SyntaxError as e:
+            print(f"Failed to parse code: {e}")
+            return code
         obfuscated_tree = self.visit(tree)
         obfuscated_code = astunparse.unparse(obfuscated_tree)
         char_map_code = f"char_map = {self.char_map}\n"
         strings_table_code = f"strings_table = {self.strings_table}\n"
-        info = { # New feature
+        info = {
         "Obfuscator": {
             "Created_By": {
                 "User319183": "Free | Open Source Version",
@@ -71,56 +103,78 @@ class Obfuscator(ast.NodeTransformer):
                 "Join the Discord if your a kool kid": "https://discord.gg/KHJjX3y2B4",
             },
             "Features": {
-                "Random_String_Generation": 'true', # Updated feature
-                "AES_and_RSA_Encryption": 'true', # Updated feature
-                "String_Encryption": 'true', # Updated feature
-                "String_Decryption": 'true', # Updated feature
-                "Code_Obfuscation": 'true', # Updated feature
-                "Name_Obfuscation": 'true', # Updated feature
+                "Random_String_Generation": 'true',
+                "AES_and_RSA_Encryption": 'true',
+                "String_Encryption": 'true',
+                "String_Decryption": 'true',
+                "Code_Obfuscation": 'true',
+                "Name_Obfuscation": 'true',
                 "Function_Name_Obfuscation": 'true',
-                "String_Obfuscation": 'true', # Updated feature
-                "Constant_Obfuscation": 'true', # Updated feature
-                "Call_Obfuscation": 'true', # Updated feature
+                "String_Obfuscation": 'true',
+                "Constant_Obfuscation": 'true',
+                "Call_Obfuscation": 'true',
                 "Advanced_Obfuscation": {
-                    "Code_Flattening": 'true', # Updated feature (I think)
-                    "Proprietary_Logic_Insertion": 'true', # New feature
-                    "Safeguard_Insertion": 'true', # New feature
-                    "Dead_Code_Insertion": 'true', # Updated feature
-                    "Control_Flow_Flattening": 'true',  # New feature
-                    "Code_Substitution": 'true',  # New feature
-                    "Dummy_Code_Insertion": 'true',  # New feature
-                    "Variable_Renaming": 'true',  # New feature
+                    "Code_Flattening": 'true',
+                    "Proprietary_Logic_Insertion": 'true',
+                    "Safeguard_Insertion": 'true',
+                    "Dead_Code_Insertion": 'true',
+                    "Code_Substitution": 'true',
+                    "Dummy_Code_Insertion": 'true',
+                    "Variable_Renaming": 'true',
+                },
+                
+                "Supremebfuscator": {
+                    "Opaque_Predicates": 'true', # New feature
+                    "Encrypted_Strings": 'true', # New feature
+                    "Control_Flow_Flattening": 'true', # New feature
+                    "Parallel_Obfuscation": 'true', # New feature
                 }
             }
         }
     }
+        
         version_info = "credits = " + json.dumps(info, indent=4) + "\n"
+        lines = obfuscated_code.split('\n')
+        for i, message in enumerate(funny_messages):
+            random_index = random.randint(0, len(lines))
+            # Insert a funny message at a random line. The funny message is a comment but we will work on making it a valid statement later.
+            lines.insert(random_index, f'# {random.choice(random_variables)} = "{message}"')
+        obfuscated_code = '\n'.join(lines)
+        
         return version_info + char_map_code + strings_table_code + obfuscated_code
-    
+
     def visit_Name(self, node):
         if isinstance(node.ctx, (ast.Load, ast.Store)):
             if node.id not in self.names_map:
-                self.names_map[node.id] = random_string()
-            node.id = self.names_map[node.id]
+                new_name = self.generate_unique_name()
+                self.names_map[node.id] = new_name
+            node.id = self.names_map.get(node.id, node.id)
         return node
 
     def visit_FunctionDef(self, node):
-        if node.name not in self.names_map:
-            self.names_map[node.name] = random_string()
-        node.name = self.names_map[node.name]
-        self.generic_visit(node)
-        return node
+        obfuscated_name = ''.join(random.choices(string.ascii_letters, k=10))
+        # Add the original name and the obfuscated name to the names_map dictionary
+        self.names_map[node.name] = obfuscated_name
+        node.name = obfuscated_name
+        return self.generic_visit(node)
 
+    def generate_unique_name(self):
+        while True:
+            name = random_string()
+            if name not in self.used_names:
+                self.used_names.add(name)
+                return name
+            
     def visit_Str(self, node):
         encrypted_string = encrypt_with_aes_and_rsa(node.s)
         index = len(self.strings_table)
         self.strings_table.append(encrypted_string)
-        node.s = f"strings_table[{index}]"
+        node.s = f"decrypt_string(strings_table[{index}])" # Decrypt the string before returning it
         return node
 
     def visit_Constant(self, node):
         if isinstance(node.value, (int, float)):
-            offset = random.randint(-100, 100)  # Generate a random offset
+            offset = random.randint(1, 6969)
             node.value = node.value + offset - offset  # Obfuscate the number by adding and subtracting the offset
         return node
 
@@ -200,6 +254,7 @@ class AdvancedObfuscator(Obfuscator):
         print_node = ast.Expr(value=ast.Call(func=ast.Name(id='print', ctx=ast.Load()), args=[ast.Str(s=node.name)], keywords=[]))
         node.body.insert(0, print_node)
         return node
+    
     def safeguard(self, node):
         class ReplaceIntegers(ast.NodeTransformer):
             def visit_Constant(self, node):
@@ -215,22 +270,22 @@ class AdvancedObfuscator(Obfuscator):
         if dead_code_type == 'noop_loop':
             return ast.For(
                 target=ast.Name(id='_', ctx=ast.Store()),
-                iter=ast.Call(func=ast.Name(id='range', ctx=ast.Load()), args=[ast.Constant(value=random.randint(1, 10))], keywords=[]),
+                iter=ast.Call(func=ast.Name(id='range', ctx=ast.Load()), args=[ast.Constant(value=random.randint(1, 10000))], keywords=[]),
                 body=[ast.Pass()],
                 orelse=[]
             )
         elif dead_code_type == 'meaningless_calc':
             return ast.Expr(
                 value=ast.BinOp(
-                    left=ast.Constant(value=random.randint(1, 10)),
+                    left=ast.Constant(value=random.randint(1, 10000)),
                     op=ast.Add(),
-                    right=ast.Constant(value=random.randint(1, 10))
+                    right=ast.Constant(value=random.randint(1, 99999)),
                 )
             )
         elif dead_code_type == 'unused_var':
             return ast.Assign(
                 targets=[ast.Name(id=random_string(), ctx=ast.Store())],
-                value=ast.Constant(value=random.randint(1, 10))
+                value=ast.Constant(value=random.randint(1, 696969))
             )
 
     def visit_FunctionDef(self, node):
@@ -242,7 +297,7 @@ class AdvancedObfuscator(Obfuscator):
         return super().visit_FunctionDef(node)
     
     def visit_Module(self, node):
-        for _ in range(random.randint(1, 3)): # Insert 1-3 dead code snippets
+        for _ in range(random.randint(1, 100)): # Insert 100 lines of dummy code
             dead_code = self.generate_dead_code()
             node.body.insert(random.randint(0, len(node.body)), dead_code)
         self.generic_visit(node)
@@ -258,48 +313,54 @@ class Supremebfuscator(AdvancedObfuscator):
     Including, but not limited to:
     - Opaque predicates
     - Encrypted strings
-    - Control flow flattening    
+    - Control flow flattening
+    - Code flattening
+    - Proprietary logic insertion
+    - Safeguard insertion
+    - Dead code insertion
+    - Code substitution
+    - Dummy code insertion
+    - Variable renaming
+    - Parallel obfuscation
     """
     def __init__(self):
         super().__init__()
         self.opaque_predicates_table = []
         self.encrypted_strings_table = []
         
+        
+    class ControlFlowFlattener(ast.NodeTransformer):
+        def visit_If(self, node):
+            # Generate a random variable name for the control variable
+            control_var = random_string()
+
+            # Create a list of the bodies of the if and else branches
+            bodies = [node.body]
+            if node.orelse:
+                bodies.append(node.orelse)
+
+            random.shuffle(bodies)
+
+            # Create a list of if-elif statements
+            if_elif_statements = []
+            for index, body in enumerate(bodies):
+                if index == 0:
+                    if_elif_statements.append(ast.If(test=ast.Compare(left=ast.Name(id=control_var, ctx=ast.Load()), ops=[ast.Eq()], comparators=[ast.Constant(value=index)]), body=body, orelse=[]))
+                else:
+                    if_elif_statements[-1].orelse.append(ast.If(test=ast.Compare(left=ast.Name(id=control_var, ctx=ast.Load()), ops=[ast.Eq()], comparators=[ast.Constant(value=index)]), body=body, orelse=[]))
+
+            return if_elif_statements[0]
+        
     def control_flow_flattening(self, code):
-        # Parse the code into an AST
-        tree = ast.parse(code)
-
-        # Create a NodeTransformer to flatten the control flow
-        class ControlFlowFlattener(ast.NodeTransformer):
-            def visit_If(self, node):
-                # Generate a random variable name for the control variable
-                control_var = random_string()
-
-                # Create a list of the bodies of the if and else branches
-                bodies = [node.body, node.orelse]
-                
-                random.shuffle(bodies)
-
-                # Create a switch statement with a case for each body
-                switch_statement = ast.Switch(
-                    test=ast.Name(id=control_var, ctx=ast.Load()),
-                    body=[ast.case(index, body) for index, body in enumerate(bodies)]
-                )
-
-                # Create a loop that iterates over the cases in the switch statement
-                loop = ast.For(
-                    target=ast.Name(id=control_var, ctx=ast.Store()),
-                    iter=ast.Call(func=ast.Name(id='range', ctx=ast.Load()), args=[ast.Constant(value=len(bodies))], keywords=[]),
-                    body=[switch_statement],
-                    orelse=[]
-                )
-                return loop
-
-        # Apply the NodeTransformer to the AST
-        ControlFlowFlattener().visit(tree)
-
-        # Unparse the AST back into code
-        return astunparse.unparse(tree)
+        try:
+            tree = ast.parse(code)
+        except SyntaxError as e:
+            print(f"Failed to parse code: {e}")
+            return code
+        obfuscated_tree = self.ControlFlowFlattener().visit(tree)
+        obfuscated_code = astunparse.unparse(obfuscated_tree)
+        return obfuscated_code
+        
 
     def opaque_predicate(self):
         # Generate a condition that always evaluates to true
@@ -319,10 +380,6 @@ class Supremebfuscator(AdvancedObfuscator):
         self.opaque_predicates_table.append(condition)
         return f"opaque_predicates_table[{len(self.opaque_predicates_table) - 1}]"
 
-    def visit_If(self, node):
-        node.test = ast.BoolOp(op=ast.And(), values=[node.test, ast.Name(id=self.opaque_predicate(), ctx=ast.Load())])
-        return node
-
     def visit_While(self, node):
         node.test = ast.BoolOp(op=ast.And(), values=[node.test, ast.Name(id=self.opaque_predicate(), ctx=ast.Load())])
         return node
@@ -333,13 +390,32 @@ class Supremebfuscator(AdvancedObfuscator):
         self.encrypted_strings_table.append(encrypted_string)
         node.s = f"decrypt_string(encrypted_strings_table[{index}])"
         return node
+    
+    def obfuscate_string(self, s):
+        encrypted_string = encrypt_with_aes_and_rsa(s.encode()).decode()
+        index = len(self.encrypted_strings_table)
+        self.encrypted_strings_table.append(encrypted_string)
+        return f"decrypt_string(encrypted_strings_table[{index}])"
 
     def obfuscate(self, code):
-        # Obfuscate the code using the base obfuscator, then obfuscate the obfuscated code using the advanced obfuscator, then obfuscate the obfuscated obfuscated code using the supremebfuscator
+        code = self.control_flow_flattening(code)
+        obfuscated_code = super().obfuscate(code)
+        return obfuscated_code
+
+    def parallel_obfuscate(self, code):
+        num_processes = multiprocessing.cpu_count()
+        pool = multiprocessing.Pool(processes=num_processes)
+        chunks = [code[i::num_processes] for i in range(num_processes)]
+        results = pool.map(self.obfuscate, chunks)
+        obfuscated_code = ''.join(results)
+        return obfuscated_code
+
+    def obfuscate_with_opaque_predicates(self, code):
+        code = self.control_flow_flattening(code)
         obfuscated_code = super().obfuscate(code)
         opaque_predicates_table_code = "opaque_predicates_table = ["
         for node in self.opaque_predicates_table:
-            opaque_predicates_table_code += encrypt_with_aes_and_rsa(ast.dump(node).encode()).decode() + ", "
+            opaque_predicates_table_code += encrypt_with_aes_and_rsa(ast.dump(node).encode()) + ", "
         opaque_predicates_table_code = opaque_predicates_table_code.rstrip(", ") + "]\n"
         return opaque_predicates_table_code + obfuscated_code
 
