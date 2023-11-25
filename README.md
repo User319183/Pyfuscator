@@ -26,14 +26,17 @@ Pyfuscator is an advanced Python code obfuscation tool, meticulously designed to
 
 Pyfuscator is built upon the following Python libraries:
 
-- `ast`
-- `astunparse`
-- `hashlib`
-- `random`
-- `string`
-- `Crypto.Cipher`
-- `Crypto.Random`
-- `base64`
+- `random:` This library is used to generate pseudo-random numbers.
+- `string:` This library contains various string operation functions.
+- `json:` This library is used to work with JSON data.
+- `ast`: This library is used for working with Abstract Syntax Trees.
+- `astunparse:` This library is used to convert Abstract Syntax Trees back into Python source code.
+- `base64:` This library is used for encoding binary data to ASCII characters and decoding ASCII characters back to binary data.
+- `Crypto.Cipher.AES:` This is a part of the pycrypto library and is used for AES encryption and decryption.
+- `Crypto.Random.get_random_bytes:` This is a part of the pycrypto library and is used to generate random bytes.
+- `Crypto.PublicKey.RSA:` This is a part of the pycrypto library and is used for RSA encryption and decryption.
+- `Crypto.Cipher.PKCS1_OAEP:` This is a part of the pycrypto library and is used for PKCS1 OAEP padding for RSA encryption and decryption.
+- `multiprocessing:` This library allows for the creation of processes, and offers both local and remote concurrency.
 
 ## Contributing
 
