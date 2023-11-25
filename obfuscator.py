@@ -47,8 +47,13 @@ random_variables = [
 
 
 def random_string(length=500):
-    letters = string.ascii_lowercase + string.ascii_uppercase + string.ascii_letters
-    return ''.join(random.choice(letters) for _ in range(length))
+    ascii_and_digits = string.ascii_letters
+    spanish_chars = "áéíóúñÁÉÍÓÚÑ"
+    french_chars = "àâéèêëîïôùûçÀÂÉÈÊËÎÏÔÙÛÇ"
+    unknown_chars = "ÿþÿþÿþÿþÿþÿþÿþÿþÿþÿþÿþÿþÿþÿþ"
+    chinese_chars = "你好我是User319183我喜欢吃屎"
+    return ''.join(random.choices(ascii_and_digits + spanish_chars + french_chars + unknown_chars + chinese_chars, k=length))
+
 
 def encrypt_with_aes_and_rsa(plain_text):
     IV = get_random_bytes(16)
@@ -58,6 +63,7 @@ def encrypt_with_aes_and_rsa(plain_text):
     cipher_text_rsa = RSA_CIPHER.encrypt(cipher_text_aes)  # RSA cipher
 
     return base64.b64encode(cipher_text_rsa).decode()
+
 
 cipher = AES.new(KEY, AES.MODE_CFB, get_random_bytes(16))
 
@@ -174,7 +180,7 @@ class Obfuscator(ast.NodeTransformer):
 
     def visit_Constant(self, node):
         if isinstance(node.value, (int, float)):
-            offset = random.randint(1, 6969)
+            offset = random.randint(1, 99999)
             node.value = node.value + offset - offset  # Obfuscate the number by adding and subtracting the offset
         return node
 
@@ -277,7 +283,7 @@ class AdvancedObfuscator(Obfuscator):
         elif dead_code_type == 'meaningless_calc':
             return ast.Expr(
                 value=ast.BinOp(
-                    left=ast.Constant(value=random.randint(1, 10000)),
+                    left=ast.Constant(value=random.randint(1, 99999)),
                     op=ast.Add(),
                     right=ast.Constant(value=random.randint(1, 99999)),
                 )
@@ -285,7 +291,8 @@ class AdvancedObfuscator(Obfuscator):
         elif dead_code_type == 'unused_var':
             return ast.Assign(
                 targets=[ast.Name(id=random_string(), ctx=ast.Store())],
-                value=ast.Constant(value=random.randint(1, 696969))
+                value=ast.Constant(value=random.randint(1, 99999))
+                    
             )
 
     def visit_FunctionDef(self, node):
@@ -297,11 +304,11 @@ class AdvancedObfuscator(Obfuscator):
         return super().visit_FunctionDef(node)
     
     def visit_Module(self, node):
-        for _ in range(random.randint(1, 100)): # Insert 100 lines of dummy code
-            dead_code = self.generate_dead_code()
-            node.body.insert(random.randint(0, len(node.body)), dead_code)
+        for _ in range(random.randint(1, 100)):
+            node.body.insert(random.randint(0, len(node.body)), self.generate_dead_code())
         self.generic_visit(node)
         return node
+    
 
     def visit_While(self, node):
         new_node = ast.For(target=ast.Name(id='_', ctx=ast.Store()), iter=ast.Call(func=ast.Name(id='range', ctx=ast.Load()), args=[ast.Constant(value=1000000)], keywords=[]), body=node.body, orelse=[])
