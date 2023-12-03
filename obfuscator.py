@@ -49,10 +49,9 @@ random_variables = [
 def random_string(length=500):
     ascii_and_digits = string.ascii_letters
     spanish_chars = "áéíóúñÁÉÍÓÚÑ"
-    french_chars = "àâéèêëîïôùûçÀÂÉÈÊËÎÏÔÙÛÇ"
-    unknown_chars = "ÿþÿþÿþÿþÿþÿþÿþÿþÿþÿþÿþÿþÿþÿþ"
-    chinese_chars = "你好我是User319183我喜欢吃屎"
-    return ''.join(random.choices(ascii_and_digits + spanish_chars + french_chars + unknown_chars + chinese_chars, k=length))
+    french_chars = "àâæçéèêëîïôœùûüÿÀÂÆÇÉÈÊËÎÏÔŒÙÛÜŸ"
+    chinese_chars = "丨丿乙亅人亻仌仨仡仫伋伢佤佥侑侔俉俣俨俪俳倌倬倻偀偁偂偃偕偰偱偲側偵偸偺偽傀傃傈傔傕傖傘備傛傜傞傠傡傢傪傫傭傯傰傱傳傴債傶傷傸傹傼傽傾僀僂僄僅僇僉僊僎僐僑僒僓僔僕僖僗僘僙僚僛僜僝僞僟僠僡僢僣僤僥僨僩僪僫僬僭僮僯僰僱僲僴僶僷僸價僺僻僼僽僾僿儀儁儂儃億儅儈儉儊儌儍儎儏儐儑儒儓儔儕儖儗儘儙儚儛儜儝儞償儠儡儢儣儤儥儦儧儨儩優儫儬儭儮儯儰儱儲儳儴儵儶儷儸儹儺儻儼儽儾儿兀兂兊兌兎兏児兒兓兗兘兙兛兝兞兟兠兡兣兤兦內兩"
+    return ''.join(random.choices(ascii_and_digits + spanish_chars + french_chars + chinese_chars, k=length))
 
 
 def encrypt_with_aes_and_rsa(plain_text):
@@ -105,8 +104,6 @@ class Obfuscator(ast.NodeTransformer):
         "Obfuscator": {
             "Created_By": {
                 "User319183": "Free | Open Source Version",
-                "Should I create a premium version?": "lol probably not b/c I'm lazy",
-                "Join the Discord if your a kool kid": "https://discord.gg/KHJjX3y2B4",
             },
             "Features": {
                 "Random_String_Generation": 'true',
@@ -128,12 +125,11 @@ class Obfuscator(ast.NodeTransformer):
                     "Dummy_Code_Insertion": 'true',
                     "Variable_Renaming": 'true',
                 },
-                
                 "Supremebfuscator": {
-                    "Opaque_Predicates": 'true', # New feature
-                    "Encrypted_Strings": 'true', # New feature
-                    "Control_Flow_Flattening": 'true', # New feature
-                    "Parallel_Obfuscation": 'true', # New feature
+                    "Opaque_Predicates": 'true',
+                    "Encrypted_Strings": 'true',
+                    "Control_Flow_Flattening": 'true',
+                    "Parallel_Obfuscation": 'true',
                 }
             }
         }
