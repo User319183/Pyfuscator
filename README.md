@@ -11,6 +11,7 @@ Pyfuscator is an advanced Python code obfuscation tool, meticulously designed to
 - **Advanced Anti-Debugging**: Pyfuscator now includes an anti-debugging feature, which makes it harder for others to reverse engineer your code by using a debugger. This feature uses various techniques to detect the presence of a debugger and alters the program's behavior to thwart debugging attempts. This feature is implemented in the [`generate_anti_debugger_code`](obfuscator.py) function in the [`obfuscator.py`](obfuscator.py) file.
 - **Opaque Predicates Obfuscation**: Pyfuscator now includes a feature for obfuscating code with opaque predicates. This feature adds an additional layer of complexity to the obfuscated code, making it harder for others to understand the original logic.
 - **Encrypted Strings Obfuscation**: Pyfuscator now includes a feature for obfuscating code with encrypted strings. This feature adds an additional layer of complexity to the obfuscated code, making it harder for others to understand the original logic.
+- **Anti-Memory Dumping**: Pyfuscator now includes an anti-memory dumping feature, which prevents other programs from creating a memory dump of your Python process. This feature is implemented in the `main` function in the [`obfuscator.py`](obfuscator.py) file.
 
 ## Installation
 
