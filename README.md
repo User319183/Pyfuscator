@@ -2,6 +2,13 @@
 
 Pyfuscator is an advanced Python code obfuscation tool, meticulously designed to provide an extra layer of security to your Python code. Utilizing the capabilities of `ast` and `astunparse` libraries, Pyfuscator parses Python code into an Abstract Syntax Tree (AST), modifies the AST, and subsequently unparses it back into Python code. With a commitment to continuous enhancement, Pyfuscator is your go-to solution for robust and reliable code obfuscation.
 
+## Why Choose Pyfuscator?
+
+- **User-Friendly**: Pyfuscator is designed with a user-friendly interface, making it easy for developers of all skill levels to use.
+- **Highly Secure**: Pyfuscator provides the most secure obfuscation available for free, protecting your Python code from reverse engineering.
+- **Frequent Updates**: Pyfuscator is actively maintained and updated frequently, ensuring you always have access to the latest obfuscation techniques and improvements.
+- **Free and Open Source**: Pyfuscator is free to use and open source, making it accessible to everyone.
+
 ## Core Features
 
 - **Sophisticated Variable and Function Name Obfuscation**: Pyfuscator intelligently replaces all variable and function names with randomized strings, significantly increasing the complexity of the original code.
