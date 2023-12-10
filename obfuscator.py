@@ -493,12 +493,14 @@ if getattr(sys, base64.b64decode('Z2V0dHJhY2U=').decode())() is not None:
     exit_func(1)
 
 # Check for debugger-related processes
-debugger_processes = ['gdb', 'lldb', 'windbg', 'idaq', 'idaq64', 'x64_dbg', 'ollydbg', 'immunitydebugger', 'eclipse', 'pycharm', 'netbeans', 'codeblocks', 'visualstudio', 'radare2', 'jdb']  # Removed 'python -m pdb'
+debugger_processes = ['gdb', 'lldb', 'windbg', 'idaq', 'idaq64', 'x64_dbg', 'ollydbg', 'immunitydebugger', 'eclipse', 'pycharm', 'netbeans', 'codeblocks', 'visualstudio', 'radare2', 'jdb']
 running_processes = [proc.info['name'] for proc in psutil.process_iter(attrs=['name'])]
 for debugger in debugger_processes:
     if debugger in running_processes:
         message_box(0, debugger_detected, pyfuscator, 1)
         exit_func(1)
+        
+# Check if pdb is in sys.modules (soon)
 
 # Timing check
 start_time = time.time()
