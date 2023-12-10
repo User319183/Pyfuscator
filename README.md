@@ -8,6 +8,9 @@ Pyfuscator is an advanced Python code obfuscation tool, meticulously designed to
 - **Advanced String Obfuscation**: Pyfuscator encrypts all string literals, providing an additional layer of obfuscation.
 - **Intricate Control Flow Obfuscation**: Pyfuscator intricately wraps `If` and `For` statements in additional control flow structures, further obfuscating the code logic.
 - **Strategic Dead Code Injection**: Pyfuscator strategically injects dead code into function definitions, creating diversions for anyone attempting to decipher the code.
+- **Advanced Anti-Debugging**: Pyfuscator now includes an anti-debugging feature, which makes it harder for others to reverse engineer your code by using a debugger. This feature uses various techniques to detect the presence of a debugger and alters the program's behavior to thwart debugging attempts. This feature is implemented in the [`generate_anti_debugger_code`](obfuscator.py) function in the [`obfuscator.py`](obfuscator.py) file.
+- **Opaque Predicates Obfuscation**: Pyfuscator now includes a feature for obfuscating code with opaque predicates. This feature adds an additional layer of complexity to the obfuscated code, making it harder for others to understand the original logic.
+- **Encrypted Strings Obfuscation**: Pyfuscator now includes a feature for obfuscating code with encrypted strings. This feature adds an additional layer of complexity to the obfuscated code, making it harder for others to understand the original logic.
 
 ## Installation
 
@@ -26,17 +29,14 @@ Pyfuscator is an advanced Python code obfuscation tool, meticulously designed to
 
 Pyfuscator is built upon the following Python libraries:
 
-- `random:` This library is used to generate pseudo-random numbers.
-- `string:` This library contains various string operation functions.
-- `json:` This library is used to work with JSON data.
-- `ast`: This library is used for working with Abstract Syntax Trees.
-- `astunparse:` This library is used to convert Abstract Syntax Trees back into Python source code.
-- `base64:` This library is used for encoding binary data to ASCII characters and decoding ASCII characters back to binary data.
-- `Crypto.Cipher.AES:` This is a part of the pycrypto library and is used for AES encryption and decryption.
-- `Crypto.Random.get_random_bytes:` This is a part of the pycrypto library and is used to generate random bytes.
-- `Crypto.PublicKey.RSA:` This is a part of the pycrypto library and is used for RSA encryption and decryption.
-- `Crypto.Cipher.PKCS1_OAEP:` This is a part of the pycrypto library and is used for PKCS1 OAEP padding for RSA encryption and decryption.
-- `multiprocessing:` This library allows for the creation of processes, and offers both local and remote concurrency.
+- `ast`
+- `astunparse`
+- `hashlib`
+- `random`
+- `string`
+- `Crypto.Cipher`
+- `Crypto.Random`
+- `base64`
 
 ## Contributing
 
