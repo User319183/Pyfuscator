@@ -30,8 +30,8 @@ credits = {
                     "debugger_evasion_techniques": "✅",
                     "stealth_techniques": "✅",
                     "environment_checks": "✅",
+                    "anti_memory_dumping": "✅",
                     "anti_tampering": "⏳",
-                    "anti_memory_dumping": "⏳",
                     "anti_virtual_machine": "⏳"
                 }
             },
