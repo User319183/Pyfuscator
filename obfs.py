@@ -1,7 +1,7 @@
 
 # ----------------------------------------
 # @Pyfuscator
-# @Version: 0.0.9
+# @Version: 0.1.0
 # @Date: December 27, 2023 at 12:25:05 PM
 # @Author: User319183
 # @License: MIT
