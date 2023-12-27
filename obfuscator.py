@@ -1,5 +1,5 @@
 # @Pyfuscator
-# @Version: 0.0.9
+# @Version: 0.1.0
 """
 This obfuscator is protected by the MIT License. Please read the license before using this obfuscator.
 This is my custom Python obfuscator. It's not the best, but it's free and open source. I'm not responsible for any damage caused by this program. Use at your own risk.
