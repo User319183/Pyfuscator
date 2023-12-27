@@ -78,8 +78,8 @@ def random_string(min_length=500, max_length=1000):
                 (0x4E00, 0x62FF), (0x6300, 0x77FF), (0x7800, 0x8CFF), (0x8D00, 0x9FCC), (0x3400, 0x4DB5), # Chinese
                 (0x0300, 0x0370),  # Combining Diacritical Marks
             ]
-            for start, end in unicode_ranges:
-                char_sets += "".join(chr(i) for i in range(start, end))
+            # for start, end in unicode_ranges:
+            #     char_sets += "".join(chr(i) for i in range(start, end))
             
             unknown_chars = (
                 "吧哈喂嗨こんにちは안녕하세요مرحباПриветΓειασας你好आपकसवगतहこんにちは안녕하세요مرحباПриветΓειασας你好"
@@ -697,47 +697,58 @@ class Supremebfuscator(AdvancedObfuscator):
         self.opaque_predicates_table = []
         self.encrypted_strings_table = []
 
-    class ControlFlowFlattener(ast.NodeTransformer):
-        def visit_If(self, node):
-           # Generate a random variable name for the control variable
-            control_var = random_string()
+class ControlFlowFlattener(ast.NodeTransformer):
+    def visit_If(self, node):
+        # Generate a random variable name for the control variable
+        control_var = random_string()
 
-           # Create a list of the bodies of the if and else branches
-            bodies = [node.body]
-            if node.orelse:
-                bodies.append(node.orelse)
+        # Define the control variable
+        assign_node = ast.Assign(
+            targets=[ast.Name(id=control_var, ctx=ast.Store())],
+            value=ast.Constant(value=0),
+            type_comment=None,
+        )
 
-            random.shuffle(bodies)
+        # Create a list of the bodies of the if and else branches
+        bodies = [node.body]
+        if node.orelse:
+            bodies.append(node.orelse)
 
-           # Create a list of if-elif statements
-            if_elif_statements = []
-            for index, body in enumerate(bodies):
-                if index == 0:
-                    if_elif_statements.append(
-                        ast.If(
-                            test=ast.Compare(
-                                left=ast.Name(id=control_var, ctx=ast.Load()),
-                                ops=[ast.Eq()],
-                                comparators=[ast.Constant(value=index)],
-                            ),
-                            body=body,
-                            orelse=[],
-                        )
+        # Insert the assign node at the start of each body
+        for body in bodies:
+            body.insert(0, assign_node)
+
+        random.shuffle(bodies)
+
+        # Create a list of if-elif statements
+        if_elif_statements = []
+        for index, body in enumerate(bodies):
+            if index == 0:
+                if_elif_statements.append(
+                    ast.If(
+                        test=ast.Compare(
+                            left=ast.Name(id=control_var, ctx=ast.Load()),
+                            ops=[ast.Eq()],
+                            comparators=[ast.Constant(value=index)],
+                        ),
+                        body=body,
+                        orelse=[],
                     )
-                else:
-                    if_elif_statements[-1].orelse.append(
-                        ast.If(
-                            test=ast.Compare(
-                                left=ast.Name(id=control_var, ctx=ast.Load()),
-                                ops=[ast.Eq()],
-                                comparators=[ast.Constant(value=index)],
-                            ),
-                            body=body,
-                            orelse=[],
-                        )
+                )
+            else:
+                if_elif_statements[-1].orelse.append(
+                    ast.If(
+                        test=ast.Compare(
+                            left=ast.Name(id=control_var, ctx=ast.Load()),
+                            ops=[ast.Eq()],
+                            comparators=[ast.Constant(value=index)],
+                        ),
+                        body=body,
+                        orelse=[],
                     )
+                )
 
-            return if_elif_statements[0]
+        return if_elif_statements[0]
 
     def control_flow_flattening(self, code):
         try:
@@ -789,7 +800,7 @@ class Supremebfuscator(AdvancedObfuscator):
         return f"decrypt_string(encrypted_strings_table[{index}])"
 
     def obfuscate(self, code):
-        code = self.control_flow_flattening(code)
+        # code = self.control_flow_flattening(code)
         obfuscated_code = super().obfuscate(code)
         return obfuscated_code
 
@@ -856,7 +867,7 @@ def obfuscate_file(input_file, output_file):
         code = file.read()
 
     console.log("Starting obfuscation", LogLevel.INFO)
-    obfuscator = AdvancedObfuscator()
+    obfuscator = Supremebfuscator()
     obfuscated_code = obfuscator.obfuscate(code)
     console.log("Finished obfuscation", LogLevel.SUCCESS)
 
